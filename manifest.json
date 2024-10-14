@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "RewardBound",
+  "version": "1.0",
+  "description": "Tracks the time spent on a website and blocks YouTube if Well Spent is false.",
+  "permissions": ["storage", "activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://uplevel.interviewkickstart.com/*"],
+      "js": ["content.js"]
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["youtube_blocker.js"]
+    }
+  ]
+}
