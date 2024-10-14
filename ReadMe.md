@@ -15,24 +15,25 @@ To get started with RewardBound, follow the instructions below:
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/RewardBound.git
+   git clone https://github.com/satyanandarowlo/RewardBound.git
    ```
 2. Navigate to the project directory:
    ```sh
    cd RewardBound
    ```
-3. Install the necessary dependencies:
-   ```sh
-   npm install
-   ```
 
 ## Usage
 
-Run the application using the following command:
+To load and use RewardBound as a Chrome extension, follow these steps:
 
-```sh
-npm start
-```
+1. Open Chrome and navigate to `chrome://extensions/`.
+2. Enable "Developer mode" by toggling the switch in the top right corner.
+3. Click on the "Load unpacked" button and select the `RewardBound` directory.
+4. The RewardBound extension should now appear in your list of extensions.
+
+You can now use the extension by clicking on its icon in the Chrome toolbar.
+
+## Usage
 
 ## Contributing
 
@@ -41,7 +42,3 @@ We welcome contributions! Please read our [contributing guidelines](CONTRIBUTING
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any questions or feedback, please reach out to us at [email@example.com](mailto:email@example.com).
