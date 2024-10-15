@@ -3,6 +3,7 @@ let isActive = true;
 let intervalId;
 let wellSpent = false;
 let studyTime = 3600; // Default study time set to 1 hour
+let grantedReward = 0; // Initialize GrantedReward to 0
 
 // Create a timer display container (draggable)
 const timerContainer = document.createElement("div");
@@ -86,21 +87,27 @@ document.addEventListener("mouseup", () => {
   timerContainer.style.cursor = "move"; // Restore cursor
 });
 
-// Load stored time, status, and study time when the page is loaded
-chrome.storage.local.get(["timeSpent", "WellSpent", "StudyTime"], (data) => {
-  if (data.timeSpent) {
-    timeSpent = data.timeSpent;
+// Load stored time, status, study time, and granted reward when the page is loaded
+chrome.storage.local.get(
+  ["timeSpent", "WellSpent", "StudyTime", "GrantedReward"],
+  (data) => {
+    if (data.timeSpent) {
+      timeSpent = data.timeSpent;
+    }
+    if (data.WellSpent) {
+      wellSpent = data.WellSpent;
+    }
+    if (data.StudyTime) {
+      studyTime = data.StudyTime;
+      studyTimeDropdown.value = studyTime;
+    }
+    if (data.GrantedReward) {
+      grantedReward = data.GrantedReward;
+    }
+    updateDisplay();
+    startTimer();
   }
-  if (data.WellSpent) {
-    wellSpent = data.WellSpent;
-  }
-  if (data.StudyTime) {
-    studyTime = data.StudyTime;
-    studyTimeDropdown.value = studyTime;
-  }
-  updateDisplay();
-  startTimer();
-});
+);
 
 // Track visibility and user activity
 document.addEventListener("visibilitychange", () => {
@@ -120,7 +127,10 @@ function startTimer() {
       chrome.storage.local.set({ timeSpent: timeSpent }); // Save time spent
       if (timeSpent >= studyTime && !wellSpent) {
         // Reached the study goal
-        saveWellSpent(true);
+        const rewardMinutes = (studyTime * 0.1) / 60;
+        grantedReward = rewardMinutes; // Set GrantedReward
+        chrome.storage.local.set({ GrantedReward: grantedReward });
+        saveWellSpent();
         wellSpent = true;
       }
     }
@@ -132,13 +142,17 @@ function updateDisplay() {
   const rewardMinutes = (studyTime * 0.1) / 60; // Reward is 10% of effort
   timerDisplay.textContent = `Time: ${Math.floor(timeSpent / 60)}m ${
     timeSpent % 60
-  }s - Well Spent: ${wellSpent} (Reward: ${rewardMinutes.toFixed(1)} mins)`;
+  }s - Well Spent: ${wellSpent} (Reward: ${rewardMinutes.toFixed(
+    1
+  )} mins) - Granted Reward: ${grantedReward.toFixed(1)} mins`;
 }
 
 // Save Well Spent status
-function saveWellSpent(value) {
-  chrome.storage.local.set({ WellSpent: value }, () => {
-    console.log(`Well Spent set to ${value}`);
+function saveWellSpent() {
+  chrome.storage.local.set({ WellSpent: true, TotalYoutubeTime: 0 }, () => {
+    console.log(
+      `Well Spent set to true and GrantedReward set to ${grantedReward}`
+    );
   });
 }
 
@@ -146,10 +160,13 @@ function saveWellSpent(value) {
 resetButton.addEventListener("click", () => {
   timeSpent = 0;
   wellSpent = false;
+  grantedReward = 0; // Reset GrantedReward
   chrome.storage.local.set(
-    { timeSpent: 0, WellSpent: false, ForceEnabled: false },
+    { timeSpent: 0, WellSpent: false, GrantedReward: 0, ForceEnabled: false },
     () => {
-      console.log("Timer reset and Well Spent set to false");
+      console.log(
+        "Timer reset, Well Spent set to false, and GrantedReward reset"
+      );
     }
   );
   updateDisplay();
