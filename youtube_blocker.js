@@ -17,14 +17,14 @@ function displayBlockedMessage() {
   blockedMessageDiv.style.display = "flex";
   blockedMessageDiv.style.justifyContent = "center";
   blockedMessageDiv.style.alignItems = "center";
-  blockedMessageDiv.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+  blockedMessageDiv.style.backgroundColor = "rgba(0, 0, 0, 1)";
   blockedMessageDiv.style.color = "white";
   blockedMessageDiv.style.zIndex = "9998"; // Lower z-index to keep values div visible
 
   blockedMessageDiv.innerHTML = `
     <div style="text-align: center;">
-      <h1>YouTube is Blocked</h1>
-      <p>You haven't spent sufficient time on this activity.</p>
+      <h1>This Site is Blocked, Focus on Self Development</h1>
+      <p>You haven't spent sufficient time on self development.</p>
     </div>
   `;
 
@@ -49,7 +49,7 @@ function displayValuesDiv(remainingTime, totalYoutubeTime) {
       <p>Time left: <span id="timeLeft">${Math.floor(
         remainingTime / 60
       )}M:${Math.floor(remainingTime % 60)}S</span></p>
-      <p>Total Time on YouTube: <span id="totalYoutubeTime">${Math.floor(
+      <p>Total Time on Entertainment: <span id="totalYoutubeTime">${Math.floor(
         totalYoutubeTime / 60
       )}M:${Math.floor(totalYoutubeTime % 60)}S</span></p>
       <p>Granted Reward: ${grantedReward} minutes</p>

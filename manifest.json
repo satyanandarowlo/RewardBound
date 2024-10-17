@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "RewardBound",
   "version": "1.0",
-  "description": "Tracks the time spent on a website and blocks YouTube if Well Spent is false.",
+  "description": "Tracks the time spent on a website and blocks YouTube and Prime Video if Well Spent is false.",
   "permissions": ["storage", "activeTab"],
   "content_scripts": [
     {
@@ -10,7 +10,7 @@
       "js": ["content.js"]
     },
     {
-      "matches": ["https://www.youtube.com/*"],
+      "matches": ["https://www.youtube.com/*", "https://www.primevideo.com/*"],
       "js": ["youtube_blocker.js"]
     }
   ]
